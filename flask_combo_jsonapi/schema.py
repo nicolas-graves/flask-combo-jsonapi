@@ -1,8 +1,7 @@
 """Helpers to deal with marshmallow schemas"""
 from collections import OrderedDict
 
-from marshmallow import class_registry
-from marshmallow.base import SchemaABC
+from marshmallow import class_registry, Schema
 from marshmallow_jsonapi.fields import Relationship, List, Nested
 
 from flask_combo_jsonapi.exceptions import InvalidInclude
@@ -70,7 +69,7 @@ def compute_schema(schema_cls, default_kwargs, qs, include):
             related_schema_kwargs = {}
             if 'context' in default_kwargs:
                 related_schema_kwargs['context'] = default_kwargs['context']
-            if isinstance(related_schema_cls, SchemaABC):
+            if isinstance(related_schema_cls, Schema):
                 related_schema_kwargs['many'] = related_schema_cls.many
                 related_schema_kwargs['include_data'] = related_schema_cls.__dict__.get('include_data')
                 related_schema_cls = related_schema_cls.__class__

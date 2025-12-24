@@ -9,8 +9,7 @@ from sqlalchemy.orm.collections import InstrumentedList
 from sqlalchemy.inspection import inspect
 from sqlalchemy.orm.attributes import QueryableAttribute
 from sqlalchemy.orm import joinedload, ColumnProperty, RelationshipProperty
-from marshmallow import class_registry
-from marshmallow.base import SchemaABC
+from marshmallow import class_registry, Schema
 
 from flask_combo_jsonapi.data_layers.base import BaseDataLayer
 from flask_combo_jsonapi.data_layers.sorting.alchemy import create_sorts
@@ -683,7 +682,7 @@ class SqlalchemyDataLayer(BaseDataLayer):
 
                     related_schema_cls = get_related_schema(current_schema, obj)
 
-                    if isinstance(related_schema_cls, SchemaABC):
+                    if isinstance(related_schema_cls, Schema):
                         related_schema_cls = related_schema_cls.__class__
                     else:
                         related_schema_cls = class_registry.get_class(related_schema_cls)

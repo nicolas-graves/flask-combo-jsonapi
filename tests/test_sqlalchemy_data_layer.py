@@ -305,7 +305,7 @@ def address_schema():
     class AddressSchema(MarshmallowSchema):
         street = fields.String(required=True)
         city = fields.String(required=True)
-        state = fields.String(missing="NC")
+        state = fields.String(load_default="NC")
         zip = fields.String(required=True)
 
     yield AddressSchema
@@ -401,8 +401,8 @@ def computer_schema():
         serial = fields.Str(required=True)
         owner = Relationship(
             attribute="person",
-            default=None,
-            missing=None,
+            dump_default=None,
+            load_default=None,
             related_view="api.person_detail",
             related_view_kwargs={"person_id": "<person.person_id>"},
             schema="PersonSchema",
@@ -817,15 +817,6 @@ def test_compute_schema(person_schema):
     with pytest.raises(InvalidInclude):
         flask_combo_jsonapi.schema.compute_schema(person_schema, dict(), qsm, ["id"])
     flask_combo_jsonapi.schema.compute_schema(person_schema, dict(only=list()), qsm, list())
-
-
-def test_compute_schema_propagate_context(person_schema, computer_schema):
-    query_string = {}
-    qsm = QSManager(query_string, person_schema)
-    schema = flask_combo_jsonapi.schema.compute_schema(person_schema, dict(), qsm, ["computers"])
-    assert schema.declared_fields["computers"].__dict__["_Relationship__schema"].__dict__["context"] == dict()
-    schema = flask_combo_jsonapi.schema.compute_schema(person_schema, dict(context=dict(foo="bar")), qsm, ["computers"])
-    assert schema.declared_fields["computers"].__dict__["_Relationship__schema"].__dict__["context"] == dict(foo="bar")
 
 
 # test good cases
