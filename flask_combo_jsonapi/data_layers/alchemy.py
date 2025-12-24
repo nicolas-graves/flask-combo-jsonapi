@@ -682,7 +682,7 @@ class SqlalchemyDataLayer(BaseDataLayer):
 
                     related_schema_cls = get_related_schema(current_schema, obj)
 
-                    if isinstance(related_schema_cls, SchemaABC):
+                    if isinstance(related_schema_cls, Schema):
                         related_schema_cls = related_schema_cls.__class__
                     else:
                         related_schema_cls = class_registry.get_class(related_schema_cls)
