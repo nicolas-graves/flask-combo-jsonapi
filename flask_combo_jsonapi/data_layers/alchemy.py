@@ -9,8 +9,7 @@ from sqlalchemy.orm.collections import InstrumentedList
 from sqlalchemy.inspection import inspect
 from sqlalchemy.orm.attributes import QueryableAttribute
 from sqlalchemy.orm import joinedload, ColumnProperty, RelationshipProperty
-from marshmallow import class_registry
-from marshmallow.base import SchemaABC
+from marshmallow import class_registry, Schema
 
 from flask_combo_jsonapi.data_layers.base import BaseDataLayer
 from flask_combo_jsonapi.data_layers.sorting.alchemy import create_sorts
